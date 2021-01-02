@@ -1,6 +1,8 @@
 #ifndef BUFFER_H
 #define BUFFER_H
 
+#include <queue>
+
 template <typename dataType>
 class Buffer
 {
@@ -11,33 +13,33 @@ class Buffer
     std::queue <dataType> buff;
     unsigned int capacity;
 public:
-    Buffer(unsigned int capacity) : capacity(capacity) {}
+    explicit Buffer(unsigned int capacity) : capacity(capacity) {}
 
-    void put(dataType& data)
+    void put(dataType data)
     {
         monitor.enter();
         if(buff.size() == capacity)
-            wait(notFull);
+            monitor.wait(notFull);
 
-        buff.push(data);
+        buff.emplace(data);
 
         if(buff.size() == 1)
-            signal(notEmpty);
+            monitor.signal(notEmpty);
 
-        leave();
+        monitor.leave();
     }
 
     dataType get()
     {
         monitor.enter();
         if(buff.size() == 0)
-            wait(notEmpty);
+            monitor.wait(notEmpty);
 
         auto result = buff.front();
         buff.pop();
 
         if(buff.size() == capacity - 1)
-            signal(notFull);
+            monitor.signal(notFull);
 
         monitor.leave();
         return result;
@@ -56,7 +58,7 @@ public:
         buff.pop();
 
         if(buff.size() == capacity - 1)
-            signal(notFull);
+            monitor.signal(notFull);
 
         monitor.leave();
         return true;
