@@ -89,6 +89,9 @@
 		<Unit filename="C:/Users/tytjan/CLionProjects/dumplings/main.cpp">
 			<Option target="dumplings"/>
 		</Unit>
+		<Unit filename="C:/Users/tytjan/CLionProjects/dumplings/util.h">
+			<Option target="dumplings"/>
+		</Unit>
 		<Unit filename="C:/Users/tytjan/CLionProjects/dumplings/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>

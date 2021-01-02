@@ -1,41 +1,7 @@
-#include <iostream>
-#include "Monitor.h"
-#include "Buffer.h"
-#include <vector>
+#include "util.h"
 
 static unsigned int doughsMade = 0, doughsCount, fillingsPerProducer, dumplingsMade = 0;
 
-enum Type
-{
-    dough, meat, cheese, cole, none
-};
-
-std::string typeToString(Type& type)
-{
-    switch(type)
-    {
-        case dough:
-            return "dough";
-        case meat:
-            return "meat";
-        case cheese:
-            return "cheese";
-        case cole:
-            return "cole";
-        default:
-            return "";
-    }
-}
-
-struct Product
-{
-    Type type;
-public:
-    explicit Product(Type type) : type(type) {}
-    Product(Product& product) = default;
-};
-
-typedef std::vector<Buffer<Product>> bufVec;
 
 void doughProducer(Buffer <Product>& doughBuffer)
 {
@@ -79,6 +45,13 @@ void dumplingProducer(bufVec& buffers)
     }//while
 }
 
+
+void gowno(int x)
+{
+    std::cout<<"szmata";
+}
+
+
 int main(int argc, char** argv)
 {
     unsigned int bufferSize, fillingProducerCount;
@@ -95,8 +68,22 @@ int main(int argc, char** argv)
         fillingProducerCount = atoi(argv[3]);
         fillingsPerProducer = atoi(argv[4]);
     }
-
     doughsCount = fillingsPerProducer * fillingProducerCount;
 
+    bufVec buffers;
+    for(int i = 0; i < 4; i++)
+        buffers.emplace_back(Buffer<Product>(bufferSize));
+
+    for(unsigned int i = 0; i < doughProducerCount; i++)
+    {
+        std::thread doughThread(doughProducer, std::ref(buffers[dough]));
+        doughThread.join();
+    }
+
+    for(unsigned int i = 0; i < fillingProducerCount; i++)
+    {
+        std::thread fillingThread(fillingProducer, meat, std::ref(buffers[meat]));
+        fillingThread.join();
+    }
 
 }

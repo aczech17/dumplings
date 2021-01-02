@@ -3,4 +3,4 @@ project(dumplings)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(dumplings main.cpp Monitor.h Buffer.h)
+add_executable(dumplings main.cpp Monitor.h Buffer.h util.h)

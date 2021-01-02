@@ -1,0 +1,34 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+C:/Users/tytjan/CLionProjects/dumplings/Buffer.h
+queue
+-
+
+C:/Users/tytjan/CLionProjects/dumplings/Monitor.h
+windows.h
+-
+
+C:/Users/tytjan/CLionProjects/dumplings/main.cpp
+util.h
+C:/Users/tytjan/CLionProjects/dumplings/util.h
+
+C:/Users/tytjan/CLionProjects/dumplings/util.h
+iostream
+-
+Monitor.h
+C:/Users/tytjan/CLionProjects/dumplings/Monitor.h
+Buffer.h
+C:/Users/tytjan/CLionProjects/dumplings/Buffer.h
+vector
+-
+cstdlib
+-
+thread
+-
+
