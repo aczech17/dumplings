@@ -82,7 +82,8 @@ int main(int argc, char** argv)
 
     for(unsigned int i = 0; i < fillingProducerCount; i++)
     {
-        std::thread fillingThread(fillingProducer, meat, std::ref(buffers[meat]));
+        Type type = randomType();
+        std::thread fillingThread(fillingProducer, type, std::ref(buffers[type]));
         fillingThread.join();
     }
 
