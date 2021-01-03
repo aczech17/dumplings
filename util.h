@@ -6,8 +6,9 @@
 #include "Buffer.h"
 #include <vector>
 #include <cstdlib>
-#include <thread>
+#include <pthread.h>
 #include <random>
+#include <fstream>
 
 enum Type
 {
@@ -27,7 +28,7 @@ std::string typeToString(Type& type)
         case cole:
             return "cole";
         default:
-            return "";
+            return "INVALID";
     }
 }
 
@@ -39,14 +40,21 @@ public:
 };
 
 typedef std::vector<Buffer<Product>> bufVec;
+typedef std::vector<pthread_t> threadVec;
 
-Type randomType()
+template <typename randomType>
+randomType getRandom()
 {
-    std::random_device dev;
-    std::mt19937 rng(dev());
-    std::uniform_int_distribution<std::mt19937::result_type> distribution(1, 3);
-
-    Type result = (Type)distribution(rng);
-    return result;
+	std::ifstream randomFile("/dev/urandom");
+	randomType result = 0;
+	char buff;
+	for(size_t i = 0; i < sizeof(randomType); i++)
+	{
+		randomFile.get(buff);
+		result |= (buff << (8*(sizeof(randomType) - i - 1)));
+	}
+	randomFile.close();
+	return result;
 }
+
 #endif //DUMPLINGS_UTIL_H

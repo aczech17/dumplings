@@ -21,7 +21,7 @@ public:
         if(buff.size() == capacity)
             monitor.wait(notFull);
 
-        buff.emplace(data);
+        buff.push(data);
 
         if(buff.size() == 1)
             monitor.signal(notEmpty);

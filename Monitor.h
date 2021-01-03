@@ -1,28 +1,30 @@
 #ifndef MONITOR_H
 #define MONITOR_H
 
-#include <windows.h>
+#include <fcntl.h>
+#include <semaphore.h>
+#include <sys/stat.h>
 
 class Semaphore
 {
     friend class Condition;
     friend class Monitor;
-    HANDLE sem;
+    sem_t sem;
     Semaphore(int value)
     {
-        sem = CreateSemaphore(NULL, value, 1, NULL);
+        sem_init(&sem, 0, value); //0 means threads
     }
     ~Semaphore()
     {
-        CloseHandle(sem);
+        sem_destroy(&sem);
     }
     void wait()
     {
-        WaitForSingleObject(sem, INFINITE);
+        sem_wait(&sem);
     }
     void signal()
     {
-        ReleaseSemaphore(sem, 1, NULL);
+        sem_post(&sem);
     }
 
 };
