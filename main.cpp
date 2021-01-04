@@ -121,7 +121,7 @@ int main(int argc, char** argv)
     threadVec doughThreads, fillingThreads, dumplingThreads;
     for(unsigned i = 0; i < doughProducerCount; i++)
     {
-		auto thread = std::make_shared<pthread_t>();
+		auto thread = std::make_unique<pthread_t>();
 		doughThreads.push_back(*thread);
 		pthread_create(&doughThreads[i], NULL, doughProducerT, (void *)(&buffers[dough]));
 	}
@@ -130,14 +130,14 @@ int main(int argc, char** argv)
 	{
 		Type type = (Type)(getRandom<unsigned int>() % 3 + 1);
 		auto args = std::pair<Type, Buffer<Product>&>(type, buffers[type]);
-		auto thread = std::make_shared<pthread_t>();
+		auto thread = std::make_unique<pthread_t>();
 		fillingThreads.push_back(*thread);
 		pthread_create(&fillingThreads[i], NULL, fillingProducerT, (void*)(&args));
 	}
 	
 	for(unsigned i = 0; i < dumplingProducerCount; i++)
 	{
-		auto thread = std::make_shared<pthread_t>();
+		auto thread = std::make_unique<pthread_t>();
 		dumplingThreads.push_back(*thread);
 		pthread_create(&dumplingThreads[i], NULL, dumplingProducerT, (void*)(&buffers));
 	}
